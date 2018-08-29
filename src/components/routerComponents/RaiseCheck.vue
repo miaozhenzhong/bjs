@@ -1,9 +1,8 @@
 <template>
     <div class="RaiseCheck">
-        <li >
-           <span class="serarchFile"><icon class="ICON" name="search"></icon>搜索文档</span>
-           <!-- <el-button icon="el-icon-search">搜索文档</el-button> -->
-        </li>
+      <div class="search">
+          <input type="text" placeholder="用户名" v-model="user"/><span class="serarchFile"><icon class="ICON" name="search"></icon>搜索文档</span>
+      </div>
       <table cellspacing="0">
         <tr>
           <td>文件名</td>   
@@ -28,7 +27,9 @@
           <td>已完成</td>
           <td>24个</td>
           <td>
-            <el-button  type="danger" size="mini">查看分析报告</el-button>
+            <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
+                <el-button  type="danger" size="mini">查看分析报告</el-button>
+            </router-link>
             <el-button  type="primary" size="mini" >下载文档</el-button>
             <el-button  type="success" size="mini" >重新分析</el-button>
           </td>
@@ -40,53 +41,64 @@
 export default {
   name: 'RaiseCheck',
   data () {
-    return {}
+    return {
+      message:"<div style='background:red;width:50px;height:50px'></div>"
+    }
   },
   created(){
     console.log("1233")
     //  this.$Get("rt/ui/lib/query").then(function(res) {
     //     console.log(res.data)
     // });
-  },
-  beforeRouteEnter (to, from, next) {
-    console.log(to)
-   
-    // next();
-    console.log(this)
-    next(vm => {
-        // 通过 `vm` 访问组件实例
-        console.log(78999)
-    })
-
-  },
-  beforeRouteUpdate (to, from, next) {
-    console.log("------------------")
-  },
-}
+  }}
 </script>
 <style lang="scss" scoped>
 .RaiseCheck{
-  .serarchFile{
-            display: inline-block;
-            cursor: default;
-            background: #fff;
-            border: 1px solid #dcdfe6;
-            color: #606266;
-            text-align: center;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            outline: 0;
-            margin: 0;
-            font-weight: 500;
-            /* padding: 13px 0px; */
-            font-size: 12px;
-            border-radius: 4px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            padding-left: 5px;
-            margin-right: 15px;
-          }
+  .search{
+    height: 65px;
+    line-height: 65px;
+    text-align:center; 
+    position: relative;
+    input{
+        border:1px solid #fff;
+        outline: none;
+        padding:0px 15px;
+        background: #fff;
+        width:500px;
+        height:40px;
+        box-shadow: 0px 0px 1px 1px #e5e1ef;
+        &::-ms-clear {
+            width : 0;
+            height: 0;
+        }
+        margin-bottom: 30px;
+    }
+    .serarchFile{
+      position: absolute;
+      display: block;
+      cursor: default;
+      background: #fff;
+      color: #606266;
+      text-align: center;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      outline: 0;
+      margin: 0;
+      font-weight: 500;
+      /* padding: 13px 0px; */
+      font-size: 12px;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      left: 956px;
+      top: 12px;
+        .ICON{
+            vertical-align: text-top;
+            padding-right: 5px;
+        }
+    }
+  }
+ 
   table{
     width: 100%;
     tr:nth-of-type(1){

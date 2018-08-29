@@ -2,11 +2,10 @@
   <div class="home themea">
     <div class="header">
       <!-- <el-color-picker v-model="color1" @change="changeSkin"></el-color-picker> -->
-       <router-link tag="span" to="/Upload" >
+      <router-link tag="span" to="/Upload" >
         <span class="uploadBtn" type="primary"><icon name="upload"></icon>上传</span>
-        </router-link>
+      </router-link>
       <ul class="ctrl">
-      
         <router-link tag="li" to="/RaiseCheck" >
           <span> <icon class="ICON" name="envelope"></icon><div class="MessNum">16</div></span>
         </router-link>
@@ -17,35 +16,12 @@
           <span @click="exit"><icon class="ICON" name="sign-out-alt"></icon>退出</span>
         </router-link>
       </ul>
-     
     </div>
-    <!-- <div class="aside" :style="{width:AsideWidth+'px'}" >
-      <el-menu   class="el-menu-vertical-demo" :router='true' :default-active="$route.name" v-bind:id="$route.name">
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>募集说明书检查</span>
-          </template>
-          <el-menu-item index="RaiseCheck">合规性检查</el-menu-item>
-          <el-menu-item index="RaiseResult">结果查询</el-menu-item>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>IAAD指标计算</span>
-          </template>
-          <el-menu-item index="IAADCheck">IAAD检查</el-menu-item>
-          <el-menu-item index="IAADResult">结果查询</el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </div> -->
-   
-      <div class="content" >
-        <transition name="fade">
-        <router-view class="routerView"></router-view>
-        </transition>
-      </div>
- 
+    <div class="content" >
+      <transition name="fade">
+      <router-view class="routerView"></router-view>
+      </transition>
+    </div>
   </div>
 </template>
 <script>
@@ -57,7 +33,6 @@ export default {
     return {
       ActiveIndex:'',
       color1: '#409EFF',
-      isShowDiv:false,
       id:'0',
       styleObject:{
         height:'0px'
@@ -308,8 +283,10 @@ this.AsideWidth = 200
         right:0px;
         top:50px;
         bottom:0px;
+        overflow-x: hidden;
         overflow-y: auto;
         background:#ecf0f1;
+        // overflow: hidden;
         // .slide-fade-enter-active {
         //   transition: all .8s ease;
         // }
@@ -330,20 +307,26 @@ this.AsideWidth = 200
   height: 100%;
 }
 .fade-enter-active{
-    transition: all 1s cubic-bezier(0, 1.27, 0.58, 1);
+    // -ms-transition: all 0.15s cubic-bezier(0, 0.64, 0.25, 0.81);
+    // transition: all 0.15s cubic-bezier(0, 0.64, 0.25, 0.81);
+     transition: all 0.3s cubic-bezier(0, 0.81, 0.25, 0.81);
 }
 .fade-leave-active{
+     transition: all 0.3s cubic-bezier(0, 0.81, 0.25, 0.81);
   opacity: 0;
-  transition: all 0.5s cubic-bezier(0, 1.27, 0.58, 1);
+  //  -ms-transition: all 0.15s cubic-bezier(0, 0.64, 0.25, 0.81);
+  //  transition: all 0.15s cubic-bezier(0, 0.64, 0.25, 0.81)
 }
 /* 进入开始 */
 .fade-enter{
-  transform: translateX(130px);
+  transform: translateX(-10px);
+   -ms-transform: translateX(-10px);
   opacity: 0;
 }
 /* 出去终点 */
 .fade-leave-active{
-  transform: translateX(-130px);
+  transform: translateX(10px);
+   -ms-transform: translateX(10px);
   opacity: 0;
 }
 .fade-leave{
@@ -358,9 +341,11 @@ this.AsideWidth = 200
 }
 .content-enter-active{
   transition:opacity 5s;
+  -ms-transition:opacity 5s;
 }
 .content-leave-active{
   opacity:0;
+  -ms-transition:opacity 5s;
   transition:opacity 5s;
 }
 

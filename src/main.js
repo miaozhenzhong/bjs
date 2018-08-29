@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {bus} from './common/EventBus'
+import 'babel-polyfill'
 Vue.config.productionTip = false
 Vue.prototype.$bus = bus
 import {jsonPost, Get,formPost} from './common/request'
@@ -20,7 +21,8 @@ import 'vue-awesome/icons/envelope';
 import 'vue-awesome/icons/user'
 import 'vue-awesome/icons/search'
 import 'vue-awesome/icons/upload'
-
+import 'vue-awesome/icons/file-powerpoint'
+import 'vue-awesome/icons/calculator'
 
 
 
@@ -31,6 +33,8 @@ import '../static/them.less'
 Vue.component('icon', icon)
 //按需引入Element-ui
 import {
+  Collapse,
+  CollapseItem,
   Upload,
   MenuItemGroup,
   Dialog,
@@ -68,6 +72,8 @@ import {
   Message,
   Tooltip,
 } from 'element-ui';
+Vue.use(Collapse);
+Vue.use(CollapseItem);
 Vue.use(Upload);
 Vue.use(Tabs);
 Vue.use(MenuItemGroup);

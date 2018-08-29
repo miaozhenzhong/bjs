@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/v1': {
+      '/api/iras': {
         target: 'http://api.gtjf.com.cn:8090',
         changeOrigin: true,
         pathRewrite: {
-          '^/api/v1': '/api/v1'
+          '^/api/iras': '/api/iras'
         },
         proxyTimeout:300000
       },

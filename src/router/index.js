@@ -7,8 +7,9 @@ const RaiseResult =  resolve => require(['@/components/routerComponents/RaiseRes
 const IAADCheck =  resolve => require(['@/components/routerComponents/IAADCheck'], resolve)                   //募集说明书合规性检查结果
 const IAADResult =  resolve => require(['@/components/routerComponents/IAADResult'], resolve)                   //募集说明书合规性检查结果
 const Upload =  resolve => require(['@/components/routerComponents/upload'], resolve)       
+const Report = resolve => require(['@/components/routerComponents/report'], resolve)   
+const Index = resolve => require(['@/components/routerComponents/index'], resolve)  
 Vue.use(Router)
-
 export default new Router({
   mode: 'history',
   routes: [
@@ -25,6 +26,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path:'/Index',
+      name:'Index',
+      component:Index
     },
     {
       path: '/home',
@@ -55,9 +61,15 @@ export default new Router({
         name:'IAADResult',
         component:IAADResult
       },{
+        
         path:'/Upload',
         name:'Upload',
         component:Upload
+      },
+      {
+        path:'/Report',
+        name:'Report',
+        component:Report
       }]
     }
   ]
