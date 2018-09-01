@@ -13,14 +13,16 @@
     "axios": "^0.18.0",
     "echarts": "^4.1.0",
     "element-ui": "^2.4.5",
-    "less": "^3.8.1",
-    "less-loader": "^4.1.0",
     "nprogress": "^0.2.0",
+    "querystring": "^0.2.0",
     "vue": "^2.5.2",
     "vue-awesome": "^3.1.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

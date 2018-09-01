@@ -2,9 +2,9 @@
   <div class="home themea">
     <div class="header">
       <!-- <el-color-picker v-model="color1" @change="changeSkin"></el-color-picker> -->
-      <router-link tag="span" to="/Upload" >
-        <span class="uploadBtn" type="primary"><icon name="upload"></icon>上传</span>
-      </router-link>
+      <span class="logo">
+        <img src="../assets/logo.gif"/><span>智能注册评议系统</span>
+      </span>
       <ul class="ctrl">
         <router-link tag="li" to="/RaiseCheck" >
           <span> <icon class="ICON" name="envelope"></icon><div class="MessNum">16</div></span>
@@ -27,6 +27,9 @@
 <script>
 const version = require('element-ui/package.json').version // element-ui version from node_modules
 const ORIGINAL_THEME = '#409EFF' // default color
+import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'home',
   data () {
@@ -110,8 +113,30 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+            'sendMessage',
+            'sendLoginMessage' // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+    ]),
     exit(){
-      
+      var _this = this;
+      this.$jsonPost('user/logout',params).then(function (res) {
+        if(res.data.code === 0) {
+          if(data === '4') {//data === '4'
+            if (_this.$route.path === '/') {
+              _this.$message({
+                message: '请登录！',
+                type: 'warning'
+              });
+            } else {
+              _this.$message({
+                message: '会话超时，请重新登录！',
+                type: 'warning'
+              });
+            }  
+          }
+          _this.$router.push('/')
+        }
+      })
     },
     refresh(){
       console.log(this.$route)
@@ -189,6 +214,19 @@ this.AsideWidth = 200
 </script>
 <style scoped lang="less">
   .home{
+    .logo{
+      display: inline-block;
+      height: 100%;
+      img{
+        height: 100%;
+        vertical-align: middle;
+        display: inline-block;
+      }
+      span{
+        margin-left:20px;
+        font-size: 20px;
+      }
+    }
     .ICON{
       vertical-align: sub;
       color:#999c9e;
@@ -203,24 +241,7 @@ this.AsideWidth = 200
         line-height: 50px;
         background: #f3f3f4;//#20a0ff;
         color: #606266;
-        .uploadBtn{
-          display: inline-block;
-          line-height: 1;
-          background: #409EFF;
-          border: 1px solid #dcdfe6;
-          color: #fff;
-          text-align: center;
-          box-sizing: border-box;
-          -webkit-user-select: none;
-          padding: 8px 20px;
-          font-size: 14px;
-          border-radius: 4px;
-          
-          svg{
-            vertical-align: bottom;
-            margin-right: 10px;
-          }
-        }
+        
         .ctrl{
           float: right;
           margin-top: -1px;

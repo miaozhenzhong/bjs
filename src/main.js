@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import {bus} from './common/EventBus'
 import 'babel-polyfill'
+import store from './vuex'
+Vue.use(store);
 Vue.config.productionTip = false
 Vue.prototype.$bus = bus
 import {jsonPost, Get,formPost} from './common/request'
@@ -23,9 +25,9 @@ import 'vue-awesome/icons/search'
 import 'vue-awesome/icons/upload'
 import 'vue-awesome/icons/file-powerpoint'
 import 'vue-awesome/icons/calculator'
-
-
-
+import 'vue-awesome/icons/check-circle' 
+import 'vue-awesome/icons/gavel';
+import 'vue-awesome/icons/users';
 import icon from 'vue-awesome/components/Icon'
 import '../static/them.less'
 // 全局注册（在 `main .js` 文件中）
@@ -70,6 +72,7 @@ import {
   TabPane,
   MessageBox,
   Message,
+  Notification,
   Tooltip,
 } from 'element-ui';
 Vue.use(Collapse);
@@ -111,11 +114,13 @@ Vue.use(Cascader);
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$message = Message;
+Vue.prototype.$notify = Notification;
 /* eslint-disable no-new */
 
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -7,41 +7,65 @@
             <div class="subMit" @click="subMit">
                 登录
             </div>
+            <!-- <div>{{messages}}</div> -->
         </div>
     </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
+import qs from 'querystring'
 export default {
     name:'Login',
     data(){
         return{
-            user:"ooo",
-            password:"123"
+            user:"111",
+            password:"111"
         }
     },
     created(){
-       
+        this.receiveMessage("456156")
+       this.sendMessage("123")
+    },
+    computed:{
+        ...mapState(['messages'])
     },
     methods:{
+        ...mapMutations([
+            'receiveMessage', // 将 `this.increment()` 映射为 `this.$store.commit('increment')`
+        ]),
+        ...mapActions([
+            'sendMessage',
+            'sendLoginMessage' // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+        ]),
         subMit(){
             var _this = this;
-            // this.$jsonPost(url,params).then(function(res){
-            //     // _this.user = user
-            // })
-            this.$router.push({path: 'Index'})
+            var params = qs.stringify(
+                {
+                    userAccountNm:this.user ,
+                    userPwd:this.password
+                }
+            )
+            console.log(params)
+            this.$formPost('/user/login', params).then(function(res){
+                console.log(res)
+                if(res.data.code==0){
+                    //  _this.$router.push('')
+                }
+            })
         }
     }
 }
 </script>
 <style scoped lang="scss">
    .login{
-           position: absolute;
-    /* height: auto; */
+    position: absolute;
+    background-image:url('../assets/bg-login.png');
     top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
-       background: #c8dfef;
        .loginWinDow{
            position: absolute;
            left:70%;

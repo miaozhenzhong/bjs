@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api/iras': {
-        target: 'http://api.gtjf.com.cn:8090',
+        target: 'http://10.55.15.185:8080',
         changeOrigin: true,
         pathRewrite: {
           '^/api/iras': '/api/iras'
@@ -32,7 +32,15 @@ module.exports = {
             pathRewrite: {
               '^/images': '/images'
             }
+      },
+      '/api/v1':{
+        target:'http://10.55.15.185:8080',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/v1':'/api/v1'
+        }
       }
+      //https://www.sojson.com/open/api/weather/json.shtml?city=北京
     },
 
     // Various Dev Server settings

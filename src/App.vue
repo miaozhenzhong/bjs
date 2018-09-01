@@ -36,16 +36,18 @@ html,body{
 *{
   font-size: 13px;
   user-select:none;
+  margin:0;
+  padding: 0;
 }
 #app{
   height: 100%;
 }
 .fade-enter-active{
-    transition: all 1s cubic-bezier(0, 1.27, 0.58, 1);
+    transition: all 0.3s cubic-bezier(0, 1.27, 0.58, 1);
 }
 .fade-leave-active{
   opacity: 0;
-  transition: all 1s cubic-bezier(0, 1.27, 0.58, 1);
+  transition: all 0.3s cubic-bezier(0, 1.27, 0.58, 1);
 }
 .fade-enter{
   width: 0px;
