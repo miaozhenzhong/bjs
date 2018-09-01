@@ -6,15 +6,19 @@
         <img src="../assets/logo.gif"/><span>智能注册评议系统</span>
       </span>
       <ul class="ctrl">
-        <router-link tag="li" to="/RaiseCheck" >
-          <span> <icon class="ICON" name="envelope"></icon><div class="MessNum">16</div></span>
+        <router-link tag="li" to="/Index" replace>
+            <span @click="exit"><icon class="ICON" name="home"></icon>主页</span>
         </router-link>
+        <!-- <router-link tag="li" to="/RaiseCheck" >
+          <span> <icon class="ICON" name="envelope"></icon><div class="MessNum">16</div></span>
+        </router-link> -->
         <router-link tag="li" to="/IAADResult">
-          <span><icon  class="ICON" name="user"></icon>Admin</span>
+          <span><icon  class="ICON" name="cog"></icon>设置</span>
         </router-link>
         <router-link tag="li" to="/login" replace>
-          <span @click="exit"><icon class="ICON" name="sign-out-alt"></icon>退出</span>
+            <span @click="exit"><icon class="ICON" name="sign-out-alt"></icon>退出</span>
         </router-link>
+        
       </ul>
     </div>
     <div class="content" >

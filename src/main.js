@@ -28,6 +28,8 @@ import 'vue-awesome/icons/calculator'
 import 'vue-awesome/icons/check-circle' 
 import 'vue-awesome/icons/gavel';
 import 'vue-awesome/icons/users';
+import 'vue-awesome/icons/home';
+import 'vue-awesome/icons/cog'
 import icon from 'vue-awesome/components/Icon'
 import '../static/them.less'
 // 全局注册（在 `main .js` 文件中）
@@ -35,6 +37,7 @@ import '../static/them.less'
 Vue.component('icon', icon)
 //按需引入Element-ui
 import {
+  DatePicker,
   Collapse,
   CollapseItem,
   Upload,
@@ -110,7 +113,7 @@ Vue.use(Header);
 Vue.use(Aside);
 Vue.use(Main);
 Vue.use(Cascader);
-
+Vue.use(DatePicker)
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$message = Message;

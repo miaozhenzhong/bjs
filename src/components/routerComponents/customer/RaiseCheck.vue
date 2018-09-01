@@ -129,21 +129,6 @@ export default {
     tr:nth-of-type(1){
       background:#f5f7fa;
     }
-    // tr td:nth-of-type(1){
-    //   width: 300px;
-    // }
-    // tr td:nth-of-type(2){
-    //   width: 250px;
-    // }
-    // tr td:nth-of-type(3){
-    //   width: 250px;
-    // }
-    //  tr td:nth-of-type(4){
-    //   width: 100px;
-    // }
-    //  tr td:nth-of-type(5){
-    //   width: 450px;
-    // }
     tr td{
       text-align: center;
       height:45px;
