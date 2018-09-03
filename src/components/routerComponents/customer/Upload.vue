@@ -1,5 +1,10 @@
 <template>
     <div class="Upload">
+        <el-steps :active="1" simple>
+            <el-step title="步骤 1" icon="el-icon-edit"></el-step>
+            <el-step title="步骤 2" icon="el-icon-upload"></el-step>
+            <el-step title="步骤 3" icon="el-icon-picture"></el-step>
+        </el-steps>
         <transition name="fade">
             <div class="center" v-show="1==NowIndex"> 
                 <el-upload
@@ -151,8 +156,8 @@ export default {
             showGong:true,
             showSi:false,
             fiveshow:false,
-            radio2:'',
-            radio:'',
+            radio2:'预评阶段',
+            radio:'M',
             oneshow:true,
             twoshow:true,
             editableTabsValue2: '2',
@@ -283,7 +288,7 @@ export default {
             data.offeringType = this.fadeType?'M':'D';
             data.stage = this.radio2=='预评阶段'?2:1;
             data.subTableCheckFlag = this.checkListFive.length?1:0;
-            data.subTables = [];
+            data.subTables = ['','',0,0,0,0,0,0,0,0,0,0,0];
             for(var i in this.sonTable){
                 for(var j in this.checkListThree){
                     if(this.sonTable[i]==this.checkListThree[j]){

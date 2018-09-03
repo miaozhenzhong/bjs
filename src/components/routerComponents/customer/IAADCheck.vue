@@ -12,11 +12,11 @@
                 <div class="insruty">
                     <span>行业：</span> 
                     <el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        <el-option v-for="(item,index) in options" :key="index" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span>状态：</span> 
                     <el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        <el-option v-for="(item,index) in options2" :key="index" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </div>
                 
@@ -35,26 +35,13 @@
                 <td>任务转态</td>
                 <td>操作</td>
                 </tr>
-                <tr>
-                <td>华谊兄弟2016财务报告.PDF</td>   
+                <tr >
+                <td></td>   
                 <td>20018-2-6 12:12:12</td>
                 <td>20018-2-9 13:13::13</td>
                 <td>计算中</td>
                 <td>
                     <el-button  type="danger" size="mini">处理中</el-button>
-                    <el-button  type="success" size="mini" >重新分析</el-button>
-                </td>
-                </tr>
-                <tr>
-                <td>开心麻花2016财务报告.PDF</td>   
-                <td>20018-2-6 12:12:12</td>
-                <td>已完成</td>
-                <td>24个</td>
-                <td>
-                    <router-link tag="span" :to="{ path: 'IAADResult', query: { id: 'private' }}">
-                        <el-button  type="danger" size="mini">查看分析报告</el-button>
-                    </router-link>
-                    <el-button  type="primary" size="mini" >下载文档</el-button>
                     <el-button  type="success" size="mini" >重新分析</el-button>
                 </td>
                 </tr>
@@ -85,7 +72,7 @@ export default {
     }
   },
   created(){
-
+     
   },
   methods:{
         handleSizeChange(val) {

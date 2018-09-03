@@ -1,12 +1,31 @@
 <template>
     <div class="RaiseCheck">
-       <router-link tag="div" class="up" to="/Upload" >
-        <span class="uploadBtn" type="primary"><icon name="upload"></icon>上传</span>
-      </router-link>
-      <div class="search">
-          <input type="text" placeholder="用户名" v-model="user"/><span class="serarchFile"><icon class="ICON" name="search"></icon>搜索文档</span>
-      </div>
-      <table cellspacing="0">
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible"
+          width="30%"
+          :before-close="handleClose">
+          <div class="contentSelect" >
+            <el-checkbox-group v-model="checkListFive">
+            <div class="top"><el-checkbox label="架构完整性检查"></el-checkbox><el-checkbox label="信息一致性检查"></el-checkbox></div>
+            <div class="bottom"><el-checkbox label="常识性检查"></el-checkbox><el-checkbox label="内容合理性检查"></el-checkbox></div>
+            </el-checkbox-group>
+            <el-checkbox-group v-model="checkListone">
+                <div  v-for="(ele,index) in sondata" :key="index"> <el-checkbox :label="ele"></el-checkbox></div>
+            </el-checkbox-group>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="cancle">取 消</el-button>
+            <el-button type="primary" @click="confirm">确 定</el-button>
+          </span>
+        </el-dialog>
+        <router-link tag="div" class="up" to="/Upload" >
+          <span class="uploadBtn" type="primary"><icon name="upload"></icon>上传</span>
+        </router-link>
+        <div class="search">
+            <input type="text" placeholder="用户名" v-model="user"/><span class="serarchFile" @click="serarchfile"><icon class="ICON" name="search"></icon>搜索文档</span>
+        </div>
+        <table cellspacing="0">
         <tr>
           <td>文件名</td>   
           <td>创建时间</td>
@@ -14,27 +33,17 @@
           <td>发现冲突</td>
           <td>操作</td>
         </tr>
-        <tr>
-          <td>华谊兄弟2016财务报告.PDF</td>   
-          <td>20018-2-6 12:12:12</td>
-          <td>文件分析中 预计用时15分钟</td>
-          <td>计算中</td>
-          <td>
-            <el-button  type="danger" size="mini">处理中</el-button>
-            <el-button  type="success" size="mini" >重新分析</el-button>
-          </td>
-        </tr>
-        <tr>
-          <td>开心麻花2016财务报告.PDF</td>   
-          <td>20018-2-6 12:12:12</td>
-          <td>已完成</td>
-          <td>24个</td>
+        <tr v-for="(ele,index) in tableRaiseCheck" :key="index">
+          <td>{{ele.documentName}}</td>   
+          <td>{{ele.createTime}}</td>
+          <td>{{ele.jobStatus}}</td>
+          <td>{{ele.conflictNum}}</td>
           <td>
             <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                <el-button  type="danger" size="mini">查看分析报告</el-button>
+                <button :disabled="ele.click" :class="{'disabledCss':ele.click}" class="baseCss result"><icon name="file-contract"></icon><span>查看分析结果</span></button>
             </router-link>
-            <el-button  type="primary" size="mini" >下载文档</el-button>
-            <el-button  type="success" size="mini" >重新分析</el-button>
+            <button  class="baseCss down"><a  href="http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0117e2571b8b246ac72538120dd8a4.jpg%401280w_1l_2o_100sh.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D415293130%2C2419074865%26fm%3D26%26gp%3D0.jpg" download="w3logo" ><icon name="file-download"></icon><span>下载批注文档</span></a></button>
+            <button  class="baseCss reset" @click="resetCheck(ele)"><icon name="undo-alt"></icon><span>重新分析</span></button>
           </td>
         </tr>
       </table>
@@ -45,8 +54,14 @@ export default {
   name: 'RaiseCheck',
   data () {
     return {
+      sondata:["M.1","M.2","M.1",],
+      checkListFive:[],
+      checkListone:[],
+      dialogVisible: false,
+      tableRaiseCheck:[],
       user:'',
-      message:"<div style='background:red;width:50px;height:50px'></div>"
+      message:"<div style='background:red;width:50px;height:50px'></div>",
+      documentId:''
     }
   },
   created(){
@@ -54,10 +69,88 @@ export default {
     //  this.$Get("rt/ui/lib/query").then(function(res) {
     //     console.log(res.data)
     // });
-  }}
+     var params = {};
+      params.from = 1;
+      params.size = 8;
+      var _this = this;
+      this.$jsonPost("/api/iras/spec/file/list",params).then(function(res){
+          console.log(res.data)
+          _this.tableRaiseCheck = res.data.rows;
+      })
+  },
+  methods:{
+    serarchfile(){
+      var params = {};
+      var _this = this;
+      params.documentName = this.user;
+      params.from=1;
+      params.size=8;
+      console.log("1222")
+      this.$jsonPost("api/iras/spec/file/search",params).then(function(res){
+        console.log(res.data)
+        _this.tableRaiseCheck = res.data.rows;
+      })
+      params = null;
+    },
+    resetCheck(ele){
+      this.dialogVisible = true;
+      this.documentId = ele.documentId;
+    },
+    handleClose(){
+      
+    },
+    confirm(){
+      var data = {};
+      data.documentId = this.documentId;
+      data.commonsenseFlag=0;
+      data.consistencyFlag=0;
+      data.rationalityFlag=0;
+      data.integrityFlag=0;
+      for(var i in this.checkListFive){
+          if(this.checkListFive[i]=="常识性检查"){
+              data.commonsenseFlag=1;
+          }
+          if(this.checkListFive[i]=="信息一致性检查"){
+              data.consistencyFlag=1;
+          }
+          if(this.checkListFive[i]=="内容合理性检查"){
+              data.rationalityFlag=1
+          }
+          if(this.checkListFive[i]=="架构完整性检查"){
+              data.integrityFlag=1
+          }
+      }
+       data.subTables=[0,0,0,0,0,0,0,0,0,0,0,0,0]
+      for(var i in this.sondata){
+          for(var j in this.checkListThree){
+              if(this.sonTable[i]==this.checkListThree[j]){
+                    data.subTables[i] = 1;
+              }else{
+                  data.subTables[i] = 0;
+              }
+          }
+      }
+      this.$jsonPost("api/iras/spec/file/repeat/check",data).then(function(res){
+        console.log(res.data)
+      })
+      this.dialogVisible = false;
+    },
+    cancle(){
+
+    }
+  }
+  }
 </script>
 <style lang="scss" scoped>
 .RaiseCheck{
+  .contentSelect{
+    padding-left: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    .el-checkbox{
+      width:120px;
+    }
+  }
   .up{
     margin-top: 15px;
     .uploadBtn{
@@ -136,6 +229,50 @@ export default {
     }
     tr:hover{
       background:#f5f7fa;
+    }
+    td{
+      .baseCss{
+        appearance: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background: none;
+        color:#fff;
+        border-radius: 5px;
+        padding: 10px 10px;
+        svg{
+            vertical-align: sub;
+          }
+        span{
+          display: inline-block;
+          margin-left: 10px;
+        }
+        a{
+          text-decoration:none;
+          appearance: none;
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          color:#fff;
+          &:active {
+            color:''; /*鼠标按下的颜色变化*/
+          }
+        }
+      }
+
+      .result{
+        background: #409eff;
+      }
+      .down{
+        background:#67c23a;
+      }
+      .reset{
+         background:#f56c6c;
+      }
+      .disabledCss{
+        cursor: not-allowed;
+        background: #606266;
+      }
     }
   }
 }

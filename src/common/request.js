@@ -69,10 +69,12 @@ let _INTERCEPT = axios => {
       // 报错信息
       num--
       if (num === 0) {
-        bus.$emit('reuesterror',error)      
+        bus.$emit('reuesterror',error)    
+        NProgress.done();   
       }
       if (error.code === 'ECONNABORTED') {
         bus.$emit('timeout')
+        NProgress.done(); 
       } 
       return Promise.reject(error);
     },

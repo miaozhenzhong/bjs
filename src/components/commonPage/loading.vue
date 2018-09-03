@@ -39,7 +39,7 @@ export default {
       _this.modelhide();
       _this.$message({
         showClose: true,
-        message: msg,
+        message: "后台发生异常！",
         type: "error"
       });
     });

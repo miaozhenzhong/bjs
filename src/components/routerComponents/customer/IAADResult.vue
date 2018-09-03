@@ -17,21 +17,22 @@
                           <td><div>阈值</div></td>
                           <td><div>操作</div></td>
                         </tr>
-                        <tr v-for="(ele) in oneData" :key="ele">
+                        <tr v-for="(ele,index) in oneData" :key="index">
                           <td ><div>{{ele.name}}</div></td>  
                           <td ><div>{{ele.value}}</div></td>  
                           <td ><div>{{ele.sore}}</div></td>  
                           <td ><div>{{ele.power}}</div></td>
                           <td ><div>{{ele.threshold}}</div></td>    
                           <td>
-                            <el-button  type="danger" size="mini">处理中</el-button>
+                            <el-button  type="danger" size="mini">确认</el-button>
                           </td>
                         </tr>
                       </table>
                     </el-tab-pane>
                     <el-tab-pane label="待确认" name="second">
-                      <div>GDP增速</div>
-                      <table cellspacing="0">
+                      <div v-for="(ele,index) in tableArr" :key="index">
+                        <h1>增速</h1> 
+                        <table cellspacing="0">
                         <tr>
                           <td>指标名称</td>   
                           <td>指标值</td>
@@ -40,55 +41,42 @@
                           <td>阈值</td>
                           <td>操作</td>
                         </tr>
-                        <tr>
-                          <td>华谊兄弟2016财务报告.PDF</td>   
-                          <td>20018-2-6 12:12:12</td>
-                          <td>文件分析中 预计用时15分钟</td>
-                          <td>计算中</td>
-                            <td>123</td>
-                          <td>
-                          <el-button  type="danger" size="mini">处理中</el-button>
-                          <el-button  type="success" size="mini" >重新分析</el-button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>开心麻花2016财务报告.PDF</td>   
-                          <td>20018-2-6 12:12:12</td>
-                          <td>已完成</td>
-                          <td>24个</td>
-                          <td>123</td>
-                          <td>
-                          <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                              <el-button  type="danger" size="mini">查看分析报告</el-button>
-                          </router-link>
-                          <el-button  type="primary" size="mini" >下载文档</el-button>
-                          <el-button  type="success" size="mini" >重新分析</el-button>
-                          </td>
-                        </tr>
-                      </table>
-                      <table cellspacing="0">
-                        <tr>
-                          <td>指标名称</td>   
-                          <td>指标值</td>
-                          <td>指标得分</td>
-                          <td>指标权重</td>
-                          <td>阈值</td>
-                          <td>操作</td>
-                        </tr>
-                        <tr v-for="(ele) in tabledataGrop" :key="ele">
-                          <td>{{ele.value}}</td>   
+                        <tr v-for="(ele,num) in tableArr[index].data" :key="num">
+                          <td>{{ele.name}}</td>   
+                          <td>{{ele.value}}</td>
                           <td>{{ele.sore}}</td>
                           <td>{{ele.power}}</td>
                           <td>{{ele.threshold}}</td>
                           <td>
-                          <el-button  type="danger" size="mini">处理中</el-button>
-                          <el-button  type="success" size="mini" >重新分析</el-button>
+                          <el-button  type="success" size="mini" >确认</el-button>
                           </td>
                         </tr>
                       </table>
-                      <div></div>
+                      </div>
                     </el-tab-pane>
-                    <el-tab-pane label="人工录入" name="third">人工录入</el-tab-pane>
+                    <el-tab-pane label="人工录入" name="third">
+                      <table cellspacing="0">
+                        <tr>
+                          <td>指标名称</td>   
+                          <td>指标值</td>
+                          <td>指标得分</td>
+                          <td>指标权重</td>
+                          <td>阈值</td>
+                          <td>操作</td>
+                        </tr>
+                        <tr v-for="(ele,num) in oneData" :key="num">
+                          <td>{{ele.name}}</td>   
+                          <td>{{ele.value}}</td>
+                          <td>{{ele.sore}}</td>
+                          <td>{{ele.power}}</td>
+                          <td>{{ele.threshold}}</td>
+                          <td>
+                          <el-button  type="danger" size="mini">修改</el-button>
+                          <el-button  type="success" size="mini" >删除</el-button>
+                          </td>
+                        </tr>
+                      </table>
+                    </el-tab-pane>
                   </el-tabs>
                   </div>
               </div>
@@ -369,9 +357,9 @@ export default {
         }
     },
     mounted(){
-        for(var i in this.tableArr){
-          this.$set(this.tabledataGrop,i,this.tableArr[i].data)
-        }
+        // for(var i in this.tableArr){
+        //   this.$set(this.tabledataGrop,i,this.tableArr[i].data)
+        // }
     },
     methods:{
         overLoad(page){
