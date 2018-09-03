@@ -13,8 +13,9 @@ const Upload =  resolve => require(['@/components/routerComponents/customer/uplo
 const Report = resolve => require(['@/components/routerComponents/customer/report'], resolve)   
 const Admin = resolve => require(['@/components/routerComponents/admin/Admin'], resolve)
 const IAADUpload = resolve => require(['@/components/routerComponents/customer/IAADUpload'], resolve)
+const SetUp = resolve => require(['@/components/routerComponents/customer/SetUp'], resolve)
 Vue.use(Router)
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -24,7 +25,7 @@ export default new Router({
     {
       path: '/',
       name: 'login',
-      redirect: '/login'
+      component: Login,
     },
     {
       path: '/login',
@@ -38,10 +39,13 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         // alert(JSON.stringify(to,from,next))
         // https://www.sojson.com/open/api/weather/json.shtml?city=北京
-        Get("weather/json.shtml?city=北京").then(function(res){
-          console.log(res)
+        // Get("api/weather/json.shtml?city=北京").then(function(res){
+        //   console.log(res)
           next();
-        })
+        // })
+      },
+      meta:{
+        allowBack:false
       }
     },
     {
@@ -85,7 +89,22 @@ export default new Router({
         path:'/IAADUpload',
         name:'IAADUpload',
         component:IAADUpload
-      }]
+      },{
+        path:'/SetUp',
+        name:'SetUp',
+        component:SetUp
+      }
+      ]
     }
   ]
+})
+export default  router
+router.beforeEach((to, from, next) => {
+  console.log(to)  
+  console.log(from)
+  console.log(next)
+  if(to.name=="login"&&(from.name=="Index"||from.name=="Admin")){
+    router.go(1)
+  }
+  next();
 })

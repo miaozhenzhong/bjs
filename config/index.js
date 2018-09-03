@@ -33,11 +33,11 @@ module.exports = {
               '^/images': '/images'
             }
       },
-      '/api/v1':{
-        target:'http://10.55.15.185:8080',
+      '/api/weather':{
+        target:'https://www.sojson.com/open',
         changeOrigin: true,
         pathRewrite: {
-          '^/api/v1':'/api/v1'
+        
         }
       }
       //https://www.sojson.com/open/api/weather/json.shtml?city=北京

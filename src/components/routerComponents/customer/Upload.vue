@@ -134,6 +134,7 @@ export default {
     name:"upload",
     data(){
         return{
+            sondata:["M.1","M.2"],
             obj:{'documentType':'pdf'},
             TEMP:true,
             NowIndex:1,
@@ -142,7 +143,7 @@ export default {
             checkListThree:[],
             checkListFive:[],
             chackTable:["架构完整性检查","信息一致性检查","内容合理性检查","常识性检查"],
-            sonTable:["M.1表（涉及安全生产的信息披露表）","M.2表（涉及非标准无保留意见审计报告的信息披露表）","m.3（表涉及关联交易的信息披露表）","m.4表（涉及重大资产重组的信息披露表）"],
+            sonTable:["M.1","M.2"],
             fadeType:true,
             threeshow:false,
             fourshow:false,
@@ -178,7 +179,8 @@ export default {
                 this.$router.push({path:"RaiseCheck"})
             }
         },
-        beforeUpload(file){
+        beforeUpload(file,list){
+            console.log(file,list)
             var _this = this;
             var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+$/;
             if(!reg.test(file.name.split('.')[0])){
@@ -258,15 +260,37 @@ export default {
         newxtStap(type,temp){
             var data = {};
             var _this = this;
+            data.commonsenseFlag=0;
+            data.consistencyFlag=0;
+            data.rationalityFlag=0;
+            data.integrityFlag=0;
+            for(var i in this.checkListFive){
+                if(this.checkListFive[i]=="常识性检查"){
+                    data.commonsenseFlag=1;
+                }
+                if(this.checkListFive[i]=="信息一致性检查"){
+                    data.consistencyFlag=1;
+                }
+                if(this.checkListFive[i]=="内容合理性检查"){
+                    data.rationalityFlag=1
+                }
+                if(this.checkListFive[i]=="架构完整性检查"){
+                    data.integrityFlag=1
+                }
+            }
             data.documentId = this.documentId;
             data.offeringTableType = this.radio;
             data.offeringType = this.fadeType?'M':'D';
             data.stage = this.radio2=='预评阶段'?2:1;
-            data.subTableCheckFlag = true;
-            data.subTables = ["1","0","0","0","0","0","0","0","0","0","0","0","0"]
-            for(var i in this.checkList){
-                if(this.checkList[i]=='常识性检查'){
-                    data.commonsenseFlag = 1
+            data.subTableCheckFlag = this.checkListFive.length?1:0;
+            data.subTables = [];
+            for(var i in this.sonTable){
+                for(var j in this.checkListThree){
+                    if(this.sonTable[i]==this.checkListThree[j]){
+                         data.subTables[i] = 1;
+                    }else{
+                        data.subTables[i] = 0;
+                    }
                 }
             }
             if(type==7){

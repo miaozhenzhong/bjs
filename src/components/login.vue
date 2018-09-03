@@ -15,13 +15,12 @@
 import { mapMutations } from 'vuex'
 import { mapActions } from 'vuex'
 import { mapState } from 'vuex'
-import qs from 'querystring'
 export default {
     name:'Login',
     data(){
         return{
-            user:"111",
-            password:"111"
+            user:"101",
+            password:"101"
         }
     },
     created(){
@@ -41,17 +40,16 @@ export default {
         ]),
         subMit(){
             var _this = this;
-            var params = qs.stringify(
-                {
-                    userAccountNm:this.user ,
-                    userPwd:this.password
-                }
-            )
+            var params = "userAccountNm="+this.user+"&userPwd="+this.password;
             console.log(params)
-            this.$formPost('/user/login', params).then(function(res){
+            this.$formPost('/api/iras/management/user/login', params).then(function(res){
                 console.log(res)
                 if(res.data.code==0){
-                    //  _this.$router.push('')
+                    if(res.data.user.roleId==1||res.data.user.roleId==2){
+                          _this.$router.replace('Index')
+                    }else{
+                         _this.$router.replace('Admin') 
+                    }
                 }
             })
         }

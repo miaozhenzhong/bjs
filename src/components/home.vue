@@ -6,19 +6,11 @@
         <img src="../assets/logo.gif"/><span>智能注册评议系统</span>
       </span>
       <ul class="ctrl">
-        <router-link tag="li" to="/Index" replace>
-            <span @click="exit"><icon class="ICON" name="home"></icon>主页</span>
-        </router-link>
-        <!-- <router-link tag="li" to="/RaiseCheck" >
-          <span> <icon class="ICON" name="envelope"></icon><div class="MessNum">16</div></span>
-        </router-link> -->
-        <router-link tag="li" to="/IAADResult">
+        <span @click="home"><icon class="ICON" name="home"></icon>主页</span>
+        <router-link tag="li" to="/SetUp">
           <span><icon  class="ICON" name="cog"></icon>设置</span>
         </router-link>
-        <router-link tag="li" to="/login" replace>
-            <span @click="exit"><icon class="ICON" name="sign-out-alt"></icon>退出</span>
-        </router-link>
-        
+        <span @click="exit"><icon class="ICON" name="sign-out-alt"></icon>退出</span>
       </ul>
     </div>
     <div class="content" >
@@ -121,25 +113,13 @@ export default {
             'sendMessage',
             'sendLoginMessage' // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
     ]),
+    home(){
+        this.$router.replace("Index")
+    },
     exit(){
       var _this = this;
-      this.$jsonPost('user/logout',params).then(function (res) {
-        if(res.data.code === 0) {
-          if(data === '4') {//data === '4'
-            if (_this.$route.path === '/') {
-              _this.$message({
-                message: '请登录！',
-                type: 'warning'
-              });
-            } else {
-              _this.$message({
-                message: '会话超时，请重新登录！',
-                type: 'warning'
-              });
-            }  
-          }
-          _this.$router.push('/')
-        }
+      this.$Get('/api/iras/management/user/logout').then(function (res) {
+          _this.$router.replace("login")
       })
     },
     refresh(){
@@ -253,7 +233,7 @@ this.AsideWidth = 200
           list-style: none;
           
           li{
-            float: left;
+            display: inline-block;
           }
           span{
             cursor:default;

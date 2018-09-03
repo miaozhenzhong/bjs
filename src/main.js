@@ -37,6 +37,7 @@ import '../static/them.less'
 Vue.component('icon', icon)
 //按需引入Element-ui
 import {
+  Pagination,
   DatePicker,
   Collapse,
   CollapseItem,
@@ -78,6 +79,7 @@ import {
   Notification,
   Tooltip,
 } from 'element-ui';
+Vue.use(Pagination)
 Vue.use(Collapse);
 Vue.use(CollapseItem);
 Vue.use(Upload);

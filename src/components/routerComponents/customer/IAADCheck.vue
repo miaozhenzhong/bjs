@@ -29,16 +29,16 @@
         <div class="content">
             <table cellspacing="0">
                 <tr>
-                <td>文件名</td>   
-                <td>创建时间</td>
-                <td>文件状态</td>
-                <td>发现冲突</td>
+                <td>文档名称</td>   
+                <td>上传时间</td>
+                <td>最后更新时间</td>
+                <td>任务转态</td>
                 <td>操作</td>
                 </tr>
                 <tr>
                 <td>华谊兄弟2016财务报告.PDF</td>   
                 <td>20018-2-6 12:12:12</td>
-                <td>文件分析中 预计用时15分钟</td>
+                <td>20018-2-9 13:13::13</td>
                 <td>计算中</td>
                 <td>
                     <el-button  type="danger" size="mini">处理中</el-button>
@@ -59,6 +59,14 @@
                 </td>
                 </tr>
             </table>
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage3"
+                :page-size="100"
+                layout="prev, pager, next, jumper"
+                :total="1000">
+            </el-pagination>
         </div>
     </div>
 </template>
@@ -66,7 +74,11 @@
 export default {
   name: 'IAADCheck',
   data () {
-    return {
+    return { 
+        value:'',
+        value1:'',
+        value2:'',
+        currentPage3: 5,
         user:"",
         options:[{"value":"房地产","label":"房地产"},{"value":"城建","label":"城建"},{"value":"钢铁","label":"钢铁"},{"value":"高速公路","label":"高速公路"},{"value":"火电","label":"火电"},{"value":"水泥","label":"水泥"}],
         options2:[{"value":"全部","label":"全部"},{"value":"成功","label":"成功"},{"value":"失败","label":"失败"}]
@@ -74,6 +86,14 @@ export default {
   },
   created(){
 
+  },
+  methods:{
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+        }
   }
 }
 </script>
@@ -181,6 +201,11 @@ export default {
             tr:hover{
             background:#f5f7fa;
             }
+        }
+        .el-pagination{
+            position: absolute;
+            bottom: 52px;
+            right: 62px;
         }
         
     }
