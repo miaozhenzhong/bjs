@@ -81,7 +81,7 @@
             </div>
 
 
-            <!-- <div class="tapContent" :style="{'opacity':showHTML2}" :class="{zIndex:'second'==NowTap}">
+            <div class="tapContent" :style="{'opacity':showHTML2}" :class="{zIndex:'second'==NowTap}">
                 <iframe  scrolling="yes" id="iFrm1" frameborder="0"  src="../../static/红石.html" @load="overLoad(1)" name="ifr"></iframe>
                 <el-collapse v-model="activeNames" @change="handleChange">
                     <el-collapse-item title="一致性 Consistency" name="1">
@@ -143,7 +143,7 @@
                     </el-collapse-item>
 
                 </el-collapse>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>

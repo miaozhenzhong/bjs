@@ -25,7 +25,7 @@
                 <button :disabled="ele.click" :class="{'disabledCss':ele.click}" class="baseCss result"><icon name="file-contract"></icon><span>查看分析结果</span></button>
             </router-link>
             <button  class="baseCss down"><a  href="http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0117e2571b8b246ac72538120dd8a4.jpg%401280w_1l_2o_100sh.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D415293130%2C2419074865%26fm%3D26%26gp%3D0.jpg" download="w3logo" ><icon name="file-download"></icon><span>下载批注文档</span></a></button>
-            <router-link :to="{ path: 'Upload', query: { step:'true' }}"> <button  class="baseCss reset" @click="resetCheck(ele)"><icon name="undo-alt"></icon><span>重新分析</span></button></router-link>
+            <router-link :to="{ path: 'Upload', query: { step:ele.documentId }}"> <button  class="baseCss reset" @click="resetCheck(ele)"><icon name="undo-alt"></icon><span>重新分析</span></button></router-link>
           </td>
         </tr>
       </table>

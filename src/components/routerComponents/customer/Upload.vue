@@ -226,6 +226,7 @@ export default {
         this.oneshow = true;
         this.NowIndex = this.$route.query.step?4:1;
         this.active = this.$route.query.step?4:0;
+        this.documentId = this.$route.query.step?this.$route.query.step:"";
         this.NotClick = this.$route.query.step?true:false;
     },
     computed:{
