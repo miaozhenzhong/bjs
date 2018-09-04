@@ -6,6 +6,7 @@
         <img src="../assets/logo.gif"/><span>智能注册评议系统</span>
       </span>
       <ul class="ctrl">
+        <span>欢迎，{{userName}}，访问本系统！</span>
         <span @click="home"><icon class="ICON" name="home"></icon>主页</span>
         <router-link tag="li" to="/SetUp">
           <span><icon  class="ICON" name="cog"></icon>设置</span>
@@ -30,6 +31,7 @@ export default {
   name: 'home',
   data () {
     return {
+      userName:localStorage.name,
       ActiveIndex:'',
       color1: '#409EFF',
       id:'0',

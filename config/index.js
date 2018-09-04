@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api/iras': {
-        target: 'http://10.55.15.185:8080',
+        target: 'http://10.10.201.74:8080',
         changeOrigin: true,
         pathRewrite: {
           '^/api/iras': '/api/iras'

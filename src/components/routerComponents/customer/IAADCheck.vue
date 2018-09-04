@@ -1,29 +1,31 @@
 <template>
     <div class="IAADUpload">
         <div class="title">
-           
-            <div class="search">
-                 <router-link tag="div" class="up" to="/IAADUpload" >
-                    <span class="uploadBtn" type="primary"><icon name="upload"></icon>上传</span>
-                </router-link>
-                <input type="text" placeholder="用户名" v-model="user"/><span class="serarchFile"><icon class="ICON" name="search"></icon>搜索文档</span>
-            </div>
             <div class="condition">
                 <div class="insruty">
+                     <router-link tag="span" class="up" to="/IAADUpload" >
+                    <span class="uploadBtn" type="primary"><icon name="upload"></icon>上传</span>
+                </router-link>
                     <span>行业：</span> 
-                    <el-select v-model="value" placeholder="请选择">
+                    <el-select v-model="valueInstruty" placeholder="请选择">
                         <el-option v-for="(item,index) in options" :key="index" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span>状态：</span> 
-                    <el-select v-model="value" placeholder="请选择">
+                    <el-select v-model="valueStatus" placeholder="请选择">
                         <el-option v-for="(item,index) in options2" :key="index" :label="item.label" :value="item.value"></el-option>
                     </el-select>
+                      <span>开始时间：</span><el-date-picker v-model="timeStart" type="date" placeholder="选择日期"></el-date-picker>
+                    <span>结束时间：</span><el-date-picker v-model="timeEnd" type="date" placeholder="选择日期"></el-date-picker>
+                     
+                    <input type="text" placeholder="文档名称" v-model="user"/><span class="serarchFile"><icon class="ICON" name="search"></icon>搜索文档</span>
                 </div>
                 
                 <div class="time">
-                    <span>开始时间：</span><el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
-                    <span>结束时间：</span><el-date-picker v-model="value2" type="date" placeholder="选择日期"></el-date-picker>
+                  
                 </div>
+            </div>
+             <div class="search">
+               
             </div>
         </div>
         <div class="content">
@@ -35,14 +37,18 @@
                 <td>任务转态</td>
                 <td>操作</td>
                 </tr>
-                <tr >
-                <td></td>   
-                <td>20018-2-6 12:12:12</td>
-                <td>20018-2-9 13:13::13</td>
-                <td>计算中</td>
+                <tr v-for="(ele,index) in tableData" :key="index" >
+                <td>{{ele.name}}</td>   
+                <td>{{ele.time}}</td>
+                <td>{{ele.lasttime}}</td>
+                <td>{{ele.status}}</td>
                 <td>
-                    <el-button  type="danger" size="mini">处理中</el-button>
-                    <el-button  type="success" size="mini" >重新分析</el-button>
+                    <router-link tag="span" :to="{ path: 'IAADResult', query: { id: 'private' }}">
+                        <button :disabled="ele.click" :class="{'disabledCss':ele.click}" class="baseCss result"><icon name="file-contract"></icon><span>查看分析结果</span></button>
+                    </router-link>
+                    <router-link :to="{ path: 'IAADUpload', query: { step:'true' }}">
+                        <button  class="baseCss reset" @click="resetCheck(ele)"><icon name="undo-alt"></icon><span>重新分析</span></button>
+                    </router-link>
                 </td>
                 </tr>
             </table>
@@ -62,9 +68,23 @@ export default {
   name: 'IAADCheck',
   data () {
     return { 
-        value:'',
-        value1:'',
-        value2:'',
+        tableData:[
+            {
+                name:"123.pdf",
+                time:"2018-02-07 12:12:23",
+                lasttime:"2018-02-08 10:12:23",
+                status:"抽取中"
+            },{
+                name:"456.pdf",
+                time:"2018-02-04 12:12:23",
+                lasttime:"2018-02-05 08:12:23",
+                status:"已完成"
+            }
+        ],
+        valueInstruty:'',
+        valueStatus:'',
+        timeStart:'',
+        timeEnd:'',
         currentPage3: 5,
         user:"",
         options:[{"value":"房地产","label":"房地产"},{"value":"城建","label":"城建"},{"value":"钢铁","label":"钢铁"},{"value":"高速公路","label":"高速公路"},{"value":"火电","label":"火电"},{"value":"水泥","label":"水泥"}],
@@ -106,40 +126,32 @@ export default {
         }
         .condition{
             margin-top: 16px;
-            text-align: center;
             .insruty{
-                 
-            }
-            span{
-                font-size: 16px;
-                width:120px;
-                display: inline-block;
-            }
-           
-            .time{
-                margin-top: 20px;
-               .el-date-editor:nth-of-type(1){
-                    margin-left:3px;
+                span{
+                    font-size: 16px;
+                    width:auto;
+                    display: inline-block;
                 }
-               .el-date-editor:nth-of-type(2){
-                    margin-left:6px;
+                .el-select{
+                    width:150px;
+                    margin-right:5px;
                 }
-            }
-        }
-        .search{
-                .up{
-                    float: left;
+                .el-date-editor{
+                    width:150px;
+                    margin-right:5px;
+                }
+                 .up{
+                  
                 }
                 height: 65px;
                 line-height: 65px;
-                text-align:center; 
                 position: relative;
             input{
                 border:1px solid #fff;
                 outline: none;
                 padding:0px 15px;
                 background: #fff;
-                width:500px;
+                width:200px;
                 height:40px;
                 box-shadow: 0px 0px 1px 1px #e5e1ef;
                 &::-ms-clear {
@@ -149,29 +161,38 @@ export default {
                 margin-bottom: 30px;
             }
             .serarchFile{
-            position: absolute;
-            display: block;
+            // position: absolute;
+            display: inline-block;
+                box-shadow: 0px 0px 1px 1px #e5e1ef;
             cursor: default;
-            background: #fff;
-            color: #606266;
+            background: #409eff;
+            color: #fff;
             text-align: center;
             -webkit-box-sizing: border-box;
             box-sizing: border-box;
             outline: 0;
-            margin: 0;
+            margin-left: 0px;
             font-weight: 500;
             /* padding: 13px 0px; */
             font-size: 12px;
             height: 42px;
             line-height: 42px;
             text-align: center;
-            left: 956px;
+            left: 1000px;
             top: 12px;
+            padding:0px 5px;
                 .ICON{
                     vertical-align: text-top;
                     padding-right: 5px;
                 }
             }
+            .serachBox{
+                position: relative;
+            }
+            }
+        }
+        .search{
+               
         }
     }
     .content{
@@ -187,6 +208,33 @@ export default {
             }
             tr:hover{
             background:#f5f7fa;
+            }
+            .baseCss{
+                appearance: none;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                background: none;
+                color:#fff;
+                border-radius: 5px;
+                padding: 10px 10px;
+                svg{
+                    vertical-align: sub;
+                }
+                span{
+                display: inline-block;
+                margin-left: 10px;
+                }
+            }
+            .result{
+                background: #409eff;
+            }
+            .reset{
+                background:#f56c6c;
+            }
+            .disabledCss{
+                cursor: not-allowed;
+                background: #606266;
             }
         }
         .el-pagination{

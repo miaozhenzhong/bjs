@@ -10,7 +10,6 @@ const RaiseResult =  resolve => require(['@/components/routerComponents/customer
 const IAADCheck =  resolve => require(['@/components/routerComponents/customer/IAADCheck'], resolve)                   //募集说明书合规性检查结果
 const IAADResult =  resolve => require(['@/components/routerComponents/customer/IAADResult'], resolve)                   //募集说明书合规性检查结果
 const Upload =  resolve => require(['@/components/routerComponents/customer/upload'], resolve)       
-const Report = resolve => require(['@/components/routerComponents/customer/report'], resolve)   
 const Admin = resolve => require(['@/components/routerComponents/admin/Admin'], resolve)
 const IAADUpload = resolve => require(['@/components/routerComponents/customer/IAADUpload'], resolve)
 const SetUp = resolve => require(['@/components/routerComponents/customer/SetUp'], resolve)
@@ -77,11 +76,7 @@ const router = new Router({
         name:'Upload',
         component:Upload
       },
-      {
-        path:'/Report',
-        name:'Report',
-        component:Report
-      },{
+     {
         path:'/Admin',
         name:'Admin',
         component:Admin

@@ -1,9 +1,23 @@
 <template>
     <div class="Upload">
-        <el-steps :active="1" simple>
-            <el-step title="步骤 1" icon="el-icon-edit"></el-step>
+        <!-- <el-steps :active="1" simple>
+            <el-step title="上传文档" icon="el-icon-edit"></el-step>
             <el-step title="步骤 2" icon="el-icon-upload"></el-step>
             <el-step title="步骤 3" icon="el-icon-picture"></el-step>
+             <el-step title="步骤 4" icon="el-icon-edit"></el-step>
+            <el-step title="步骤 5" icon="el-icon-upload"></el-step>
+            <el-step title="步骤 6" icon="el-icon-picture"></el-step>
+            <el-step title="步骤 7" icon="el-icon-picture"></el-step>
+        </el-steps> -->
+
+        <el-steps :active="active" finish-status="success">
+            <el-step title="上传文档"></el-step>
+            <el-step title="文档分类"></el-step>
+            <el-step title="阶段选择"></el-step>
+            <el-step title="合规性检查类型选择"></el-step>
+            <el-step title="子表及其他类型标准选择"></el-step>
+            <el-step title="确认结果选择"></el-step>
+            <el-step title="完成"></el-step>
         </el-steps>
         <transition name="fade">
             <div class="center" v-show="1==NowIndex"> 
@@ -49,15 +63,13 @@
                 </div>
             </div>
         </transition>
+       
         <transition  name="fade">
-            <div class="sonTable" v-show="3==NowIndex">
-                <div class="title">
-                    子表及其他类型标准选择
-                </div>
+            <div class="stap" v-show="3==NowIndex">
+                <div class="title">阶段选择</div>
                 <div class="content">
-                    <el-checkbox-group v-model="checkListThree">
-                        <div  v-for="(ele,index) in sonTable" :key="index"> <el-checkbox :label="ele"></el-checkbox></div>
-                    </el-checkbox-group>
+                    <el-radio v-model="radio2" label="预评阶段">预评阶段</el-radio>
+                    <el-radio v-model="radio2" label="发行阶段">发行阶段</el-radio>
                 </div>
                 <div class="footer">
                     <span @click.stop="preStap(2)">上一步</span>
@@ -66,20 +78,7 @@
             </div>
         </transition>
         <transition  name="fade">
-            <div class="stap" v-show="4==NowIndex">
-                <div class="title">阶段选择</div>
-                <div class="content">
-                    <el-radio v-model="radio2" label="预评阶段">预评阶段</el-radio>
-                    <el-radio v-model="radio2" label="发行阶段">发行阶段</el-radio>
-                </div>
-                <div class="footer">
-                    <span @click.stop="preStap(3)">上一步</span>
-                    <span @click.stop="newxtStap(5,1)">下一步</span>
-                </div>
-            </div>
-        </transition>
-        <transition  name="fade">
-            <div class="checkItem" v-show="5==NowIndex">
+            <div class="checkItem" v-show="4==NowIndex">
                 <div class="title">合规性检查类型选择</div>
                 <div class="content">
                     <el-checkbox-group v-model="checkListFive">
@@ -88,12 +87,27 @@
                     </el-checkbox-group>
                 </div>
                 <div class="footer">
+                    <span @click.stop="preStap(3)" :class="{'notClick':NotClick}">上一步</span>
+                    <span @click.stop="newxtStap(5,1)">下一步</span>
+                </div>
+            </div>
+        </transition>
+        <transition  name="fade">
+            <div class="sonTable" v-show="5==NowIndex">
+                <div class="title">
+                    子表及其他类型标准选择
+                </div>
+                <div class="content">
+                    <el-checkbox-group v-model="checkListThree">
+                        <div  v-for="(ele,index) in sonTable" :key="index"> <el-checkbox :label="ele.NAME">{{ele.VALUE}}</el-checkbox></div>
+                    </el-checkbox-group>
+                </div>
+                <div class="footer">
                     <span @click.stop="preStap(4)">上一步</span>
                     <span @click.stop="newxtStap(6,1)">下一步</span>
                 </div>
             </div>
         </transition>
-
         <transition  name="fade">
             <div class="verifyResult" v-show="6==NowIndex">
                 <div class="title">确认结果选择</div>
@@ -104,7 +118,7 @@
                     <div  class="two">
                       {{(fadeType == true ?"公募" : "私募")|| '暂无数据'}}
                     </div>
-                    <div v-for="(ele,num) in checkListThree" :key="num" class="three">
+                    <div v-for="(ele,num) in checkitem" :key="num" class="three">
                         {{ele}}
                     </div>
                     <div  class="four" v-show="radio2">
@@ -139,6 +153,7 @@ export default {
     name:"upload",
     data(){
         return{
+            active:0,
             sondata:["M.1","M.2"],
             obj:{'documentType':'pdf'},
             TEMP:true,
@@ -148,7 +163,6 @@ export default {
             checkListThree:[],
             checkListFive:[],
             chackTable:["架构完整性检查","信息一致性检查","内容合理性检查","常识性检查"],
-            sonTable:["M.1","M.2"],
             fadeType:true,
             threeshow:false,
             fourshow:false,
@@ -170,11 +184,80 @@ export default {
                 name: '2',
                 content: 'Tab 2 content'
             }],
-            tabIndex: 2
+            tabIndex: 2,
+             sonCommonData:{
+        "d":[
+          {"NAME":"DM1","VALUE":"D.1(涉及安全生产的信息披露表)"},
+          {"NAME":"DM2","VALUE":"D.2(涉及非标准无保留意见审计报告的信息披露表)"},
+          {"NAME":"DM3","VALUE":"D.3(涉及关联交易的信息披露表)"},
+          {"NAME":"DM4","VALUE":"D.4(涉及重大资产重组的信息披露表)"},
+          {"NAME":"DM5","VALUE":"D.5(涉及信用增进的信息披露表)"},
+          {"NAME":"DM6","VALUE":"D.6(房地产企业信息披露表)"},
+          {"NAME":"DM7","VALUE":"D.7(供应链债务融资工具信息披露表)"},
+          {"NAME":"DM8","VALUE":"D.8(涉及突发事件的信息披露表)"},
+          {"NAME":"DM9","VALUE":"D.9(永续票据信息披露表)"},
+          {"NAME":"DM10","VALUE":"D.10(创投企业信息披露表)"},
+          {"NAME":"DM12","VALUE":"D.12(投资人保护条款信息披露表)"},
+          {"NAME":"DM13","VALUE":"D.13(涉及重要事项的信息披露表)"},
+          {"NAME":"DM14","VALUE":"D.14(城市基础设施建设类企业信息披露表)"},
+          {"NAME":"DM15","VALUE":"D.15(保障性安居工程债务融资工具信息披露表)"},
+          {"NAME":"DM16","VALUE":"D.16(绿色债务融资工具信息披露表)"},
+          {"NAME":"DM17","VALUE":"D.17(股权委托管理信息披露表)"}
+        ],
+        "m":[
+          {"NAME":"M1","VALUE":"M.1（涉及安全生产的信息披露表）"},
+          {"NAME":"M2","VALUE":"M.2（涉及非标准无保留意见审计报告的信息披露表）"},
+          {"NAME":"M3","VALUE":"M.3（涉及关联交易的信息披露表）"},
+          {"NAME":"M4","VALUE":"M.4（涉及重大资产重组的信息披露表）"},
+          {"NAME":"M5","VALUE":"M.5（涉及信用增进的信息披露表）"},
+          {"NAME":"M6","VALUE":"M.6（房地产企业信息披露表）"},
+          {"NAME":"M7","VALUE":"M.7（供应链债务融资工具信息披露表）"},
+          {"NAME":"M8","VALUE":"M.8（涉及突发事件的信息披露表）"},
+          {"NAME":"M9","VALUE":"M.9（永续票据信息披露表）"},
+          {"NAME":"M10","VALUE":"M.10（创投企业信息披露表）"},
+          {"NAME":"M11","VALUE":"M.11（超短期融资券信息披露表）"},
+          {"NAME":"M12","VALUE":"M.12（投资人保护条款信息披露表）"},
+          {"NAME":"M13","VALUE":"M.13（涉及重要事项的信息披露表）"},
+        ]
+      }
         }
     },
     created(){
         this.oneshow = true;
+        this.NowIndex = this.$route.query.step?4:1;
+        this.active = this.$route.query.step?4:0;
+        this.NotClick = this.$route.query.step?true:false;
+    },
+    computed:{
+        sonTable(){
+            return this.fadeType?this.sonCommonData.m:this.sonCommonData.d
+        },
+        checkitem(){
+            var arr = [];
+            if(this.fadeType){
+                for(var i in this.sonCommonData.m){
+                    console.log(this.sonCommonData.m[i])
+                    for(var j in this.checkListThree){
+                        if(this.sonCommonData.m[i].NAME==this.checkListThree[j]){
+                            arr.push(this.sonCommonData.m[i].VALUE)
+                        }
+                    }
+                }
+                console.log(arr)
+            }else{
+               for(var i in this.sonCommonData.d){
+                    console.log(this.sonCommonData.d[i])
+                    for(var j in this.checkListThree){
+                        if(this.sonCommonData.d[i].NAME==this.checkListThree[j]){
+                            arr.push(this.sonCommonData.d[i].VALUE)
+                        }
+                    }
+                } 
+                console.log(arr)
+
+            }
+            return arr;
+        }
     },
     methods:{
         lastTap(type){
@@ -252,19 +335,20 @@ export default {
             fileList = [];
             this.$refs.Upload.clearFiles();
             this.NowIndex = 2; 
+            this.active = 1;
         },
         preStap(type){
-            if(this.falg&&this.TEMP){
-                    this.falg = false;
-                    this.NowIndex = type;
-                    this.falg = true;
+            if(this.$route.query.step&&this.NowIndex==4){
+                return;
             }else{
-                
+                this.NowIndex = type;
+                this.active = type-1;
             }
         },
         newxtStap(type,temp){
             var data = {};
             var _this = this;
+            this.active = type-1;
             data.commonsenseFlag=0;
             data.consistencyFlag=0;
             data.rationalityFlag=0;
@@ -288,20 +372,12 @@ export default {
             data.offeringType = this.fadeType?'M':'D';
             data.stage = this.radio2=='预评阶段'?2:1;
             data.subTableCheckFlag = this.checkListFive.length?1:0;
-            data.subTables = ['','',0,0,0,0,0,0,0,0,0,0,0];
-            for(var i in this.sonTable){
-                for(var j in this.checkListThree){
-                    if(this.sonTable[i]==this.checkListThree[j]){
-                         data.subTables[i] = 1;
-                    }else{
-                        data.subTables[i] = 0;
-                    }
-                }
-            }
+            data.subTables = this.checkListThree;
             if(type==7){
                 this.$jsonPost("/api/iras/spec/file/check",data).then(function(res){
                     console.log(res)
                     _this.NowIndex = 7;
+                    _this.active = 7;
                     if(res.code=='-1'){
                         _this.NowIndex = 1;
                         _this.$message({
@@ -311,13 +387,7 @@ export default {
                     }
                 })
             }else{
-                if(this.falg&&this.TEMP){
-                    this.TEMP = false;
                     this.NowIndex = type;
-                    this.TEMP = true;
-                }else{
-                
-                }
             }
         },
         UploadProgress(e,file,fileList){
@@ -555,6 +625,9 @@ export default {
                 color:#fff;
                 border-radius: 45px;
            }
+            .notClick{
+               cursor: not-allowed; 
+           }
        }
    }
    .verifyResult{
@@ -596,6 +669,7 @@ export default {
                 color:#fff;
                 border-radius: 45px;
            }
+          
        }
    }
    .SubmitSuccess{

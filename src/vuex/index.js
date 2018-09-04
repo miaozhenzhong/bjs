@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const state = {
   messages: {
    id:""
-  }
+  },
+  commonData:{}
 }
 export default new Vuex.Store({
   state,

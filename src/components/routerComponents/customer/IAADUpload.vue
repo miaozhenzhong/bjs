@@ -1,5 +1,11 @@
 <template>
     <div class="IAADUpload">
+         <el-steps :active="active" finish-status="success">
+            <el-step title="上传文档"></el-step>
+            <el-step title="选择行业"></el-step>
+            <el-step title="确认选择"></el-step>
+            <el-step title="完成"></el-step>
+        </el-steps>
         <transition name="fade">
             <div class="center" v-show="1==NowIndex"> 
                 <el-upload
@@ -41,7 +47,7 @@
                     </el-radio-group>
                 </div>
                 <div class="footer">
-                    <span @click.stop="preStap(1)">上一步</span>
+                    <span @click.stop="preStap(1)" :class="{'notClick':NotClick}">上一步</span>
                     <span @click.stop="newxtStap(3,1)">下一步</span>
                 </div>
             </div>
@@ -55,8 +61,8 @@
                     <span>文档名称：</span><span>{{filename}}</span>
                 </div>
                  <div class="footer">
-                    <span @click.stop="preStap(2)">上一步</span>
-                    <span @click.stop="newxtStap(4,1)">下一步</span>
+                    <span @click.stop="preStap(2)" >上一步</span>
+                    <span @click.stop="newxtStap(4,1)">确认</span>
                 </div>
             </div>
         </transition>
@@ -79,8 +85,11 @@ export default {
     name:"upload",
     data(){
         return{
+            NotClick:false,
+            falg:true,
+            active:0,
             obj:{'documentType':'pdf'},
-            NowIndex:2,
+            NowIndex:0,
             checkList:[],
             oneshow:true,
             twoshow:true,
@@ -93,11 +102,15 @@ export default {
     },
     created(){
         this.oneshow = true;
+        this.NowIndex = this.$route.query.step?2:1;
+        this.NotClick = this.$route.query.step?true:false;
+        this.active = this.$route.query.step?1:0;
     },
     methods:{
         lastTap(type){
             if(type=="GoOn"){
                     this.NowIndex = 1
+                    this.active = 0;
             }else{
                 this.$router.push({path:"IAADCheck"})
             }
@@ -157,14 +170,34 @@ export default {
             console.log(fileList);
             fileList = [];
             this.$refs.Upload.clearFiles();
-            this.oneshow = false;
-            this.twoshow  = true;
+            this.NowIndex = 2;
+            this.active = 1;
         },
         preStap(type){
-                    this.NowIndex = type;
+            if(this.falg&&!this.$route.query.step&&type!=2){
+                this.NowIndex = type;
+                this.active = type-1;
+            }else{
+                return;
+            }
+           
         },
         newxtStap(type,temp){
+            var _this = this;
+            this.falg = false;
+            this.active = type-1;
+            if(type==4){
+                // this.$jsonPost("",params).then(function(res){
+                //     console.log(res.data)
+                setTimeout(function(){
+                        _this.NowIndex = type;
+                        _this.active = type
+                        _this.falg = true;
+                },10000)
+                // })
+            }else{
                 this.NowIndex = type;
+            }
         },
         UploadProgress(e,file,fileList){
             console.log(e)
@@ -253,6 +286,9 @@ export default {
                 color:#fff;
                 border-radius: 45px;
            }
+            .notClick{
+               cursor: not-allowed; 
+           }
        }
    }
    .sonTable{
@@ -293,6 +329,7 @@ export default {
                 color:#fff;
                 border-radius: 45px;
            }
+          
        }
    }
      .SubmitSuccess{

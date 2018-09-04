@@ -1,5 +1,5 @@
 <template>
-    <div class="report">
+    <div class="IAADResult">
         <div class="content">
             <transition name="fade">
               <div class="one" v-show="1==nowIndex">
@@ -114,9 +114,6 @@
                           <td>123</td>
                           <td>555</td>
                           <td>
-                          <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                              <el-button  type="danger" size="mini">查看分析报告</el-button>
-                          </router-link>
                           <el-button  type="primary" size="mini" >下载文档</el-button>
                           <el-button  type="success" size="mini" >重新分析</el-button>
                           </td>
@@ -151,9 +148,6 @@
                           <td>已完成</td>
                           <td>24个</td>
                           <td>
-                          <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                              <el-button  type="danger" size="mini">查看分析报告</el-button>
-                          </router-link>
                           <el-button  type="primary" size="mini" >下载文档</el-button>
                           <el-button  type="success" size="mini" >重新分析</el-button>
                           </td>
@@ -196,9 +190,6 @@
                           <td>计算中</td>
                           <td>计算中</td>
                           <td>
-                          <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                              <el-button  type="danger" size="mini">查看分析报告</el-button>
-                          </router-link>
                           <el-button  type="primary" size="mini" >下载文档</el-button>
                           <el-button  type="success" size="mini" >重新分析</el-button>
                           </td>
@@ -239,9 +230,6 @@
                           <td>123</td>
                           <td>555</td>
                           <td>
-                          <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                              <el-button  type="danger" size="mini">查看分析报告</el-button>
-                          </router-link>
                           <el-button  type="primary" size="mini" >下载文档</el-button>
                           <el-button  type="success" size="mini" >重新分析</el-button>
                           </td>
@@ -279,9 +267,6 @@
                           <td>计算中</td>
                           <td>计算中</td>
                           <td>
-                          <router-link tag="span" :to="{ path: 'Report', query: { id: 'private' }}">
-                              <el-button  type="danger" size="mini">查看分析报告</el-button>
-                          </router-link>
                           <el-button  type="primary" size="mini" >下载文档</el-button>
                           <el-button  type="success" size="mini" >重新分析</el-button>
                           </td>
@@ -294,7 +279,7 @@
 </template>
 <script>
 export default {
-    name:'report',
+    name:'IAADResult',
     data(){
         return{
             activeName2: '1',
@@ -376,7 +361,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-    .report{
+    .IAADResult{
         .one{
           clear: both;
           width: 100%;

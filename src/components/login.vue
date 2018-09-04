@@ -44,6 +44,7 @@ export default {
             console.log(params)
             this.$formPost('/api/iras/management/user/login', params).then(function(res){
                 console.log(res)
+                localStorage.name = res.data.user.userName;
                 if(res.data.code==0){
                     if(res.data.user.roleId==1||res.data.user.roleId==2){
                           _this.$router.replace('Index')

@@ -8,5 +8,11 @@ export default {
     },
     loginOut(state,message){
             console.log(Vue)
+    },
+    commonData(state,message){
+        
+    },
+    setUserInfor(state,message){
+        
     }
 }

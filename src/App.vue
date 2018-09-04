@@ -9,6 +9,8 @@
 
 <script>
 import loading from './components/commonPage/loading'
+import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -20,8 +22,18 @@ export default {
     }
   },
   created(){
-    
-  }
+      this.GetCommonData();
+  },
+  methods:{
+    ...mapActions([
+      'sendMessage',
+      'sendLoginMessage' ,
+      'GetCommonData'// 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+    ])
+  },
+  computed:{
+      ...mapState(['messages','commonData'])
+  },
 }
 </script>
 
