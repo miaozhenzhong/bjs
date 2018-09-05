@@ -10,7 +10,7 @@ export default {
             console.log(Vue)
     },
     commonData(state,message){
-        
+        state.commonData = message;
     },
     setUserInfor(state,message){
         

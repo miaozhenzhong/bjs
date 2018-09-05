@@ -33,11 +33,9 @@ import 'vue-awesome/icons/cog'
 import 'vue-awesome/icons/file-contract'
 import 'vue-awesome/icons/file-download'
 import 'vue-awesome/icons/undo-alt'
-
-
-
+import 'vue-awesome/icons/arrow-left'
+import 'vue-awesome/icons/arrow-right'
 import icon from 'vue-awesome/components/Icon'
-
 import '../static/them.less'
 // 全局注册（在 `main .js` 文件中）
 

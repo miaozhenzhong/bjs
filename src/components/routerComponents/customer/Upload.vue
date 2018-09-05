@@ -1,15 +1,5 @@
 <template>
     <div class="Upload">
-        <!-- <el-steps :active="1" simple>
-            <el-step title="上传文档" icon="el-icon-edit"></el-step>
-            <el-step title="步骤 2" icon="el-icon-upload"></el-step>
-            <el-step title="步骤 3" icon="el-icon-picture"></el-step>
-             <el-step title="步骤 4" icon="el-icon-edit"></el-step>
-            <el-step title="步骤 5" icon="el-icon-upload"></el-step>
-            <el-step title="步骤 6" icon="el-icon-picture"></el-step>
-            <el-step title="步骤 7" icon="el-icon-picture"></el-step>
-        </el-steps> -->
-
         <el-steps :active="active" finish-status="success">
             <el-step title="上传文档"></el-step>
             <el-step title="文档分类"></el-step>
@@ -51,10 +41,10 @@
                 </div>
                 <div class="content">
                     <el-radio-group v-model="radio">
-                        <el-radio label="M" v-if="fadeType">M</el-radio>
-                        <el-radio label="BM" v-if="fadeType">BM</el-radio>
-                        <el-radio label="DM" v-if="!fadeType">DM</el-radio>
-                        <el-radio label="DBM" v-if="!fadeType">DBM</el-radio>
+                        <el-radio label="01" v-if="fadeType">M</el-radio>
+                        <el-radio label="02" v-if="fadeType">BM</el-radio>
+                        <el-radio label="03" v-if="!fadeType">DM</el-radio>
+                        <el-radio label="04" v-if="!fadeType">DBM</el-radio>
                     </el-radio-group>
                 </div>
                 <div class="footer">
@@ -149,6 +139,7 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     name:"upload",
     data(){
@@ -185,41 +176,6 @@ export default {
                 content: 'Tab 2 content'
             }],
             tabIndex: 2,
-             sonCommonData:{
-        "d":[
-          {"NAME":"DM1","VALUE":"D.1(涉及安全生产的信息披露表)"},
-          {"NAME":"DM2","VALUE":"D.2(涉及非标准无保留意见审计报告的信息披露表)"},
-          {"NAME":"DM3","VALUE":"D.3(涉及关联交易的信息披露表)"},
-          {"NAME":"DM4","VALUE":"D.4(涉及重大资产重组的信息披露表)"},
-          {"NAME":"DM5","VALUE":"D.5(涉及信用增进的信息披露表)"},
-          {"NAME":"DM6","VALUE":"D.6(房地产企业信息披露表)"},
-          {"NAME":"DM7","VALUE":"D.7(供应链债务融资工具信息披露表)"},
-          {"NAME":"DM8","VALUE":"D.8(涉及突发事件的信息披露表)"},
-          {"NAME":"DM9","VALUE":"D.9(永续票据信息披露表)"},
-          {"NAME":"DM10","VALUE":"D.10(创投企业信息披露表)"},
-          {"NAME":"DM12","VALUE":"D.12(投资人保护条款信息披露表)"},
-          {"NAME":"DM13","VALUE":"D.13(涉及重要事项的信息披露表)"},
-          {"NAME":"DM14","VALUE":"D.14(城市基础设施建设类企业信息披露表)"},
-          {"NAME":"DM15","VALUE":"D.15(保障性安居工程债务融资工具信息披露表)"},
-          {"NAME":"DM16","VALUE":"D.16(绿色债务融资工具信息披露表)"},
-          {"NAME":"DM17","VALUE":"D.17(股权委托管理信息披露表)"}
-        ],
-        "m":[
-          {"NAME":"M1","VALUE":"M.1（涉及安全生产的信息披露表）"},
-          {"NAME":"M2","VALUE":"M.2（涉及非标准无保留意见审计报告的信息披露表）"},
-          {"NAME":"M3","VALUE":"M.3（涉及关联交易的信息披露表）"},
-          {"NAME":"M4","VALUE":"M.4（涉及重大资产重组的信息披露表）"},
-          {"NAME":"M5","VALUE":"M.5（涉及信用增进的信息披露表）"},
-          {"NAME":"M6","VALUE":"M.6（房地产企业信息披露表）"},
-          {"NAME":"M7","VALUE":"M.7（供应链债务融资工具信息披露表）"},
-          {"NAME":"M8","VALUE":"M.8（涉及突发事件的信息披露表）"},
-          {"NAME":"M9","VALUE":"M.9（永续票据信息披露表）"},
-          {"NAME":"M10","VALUE":"M.10（创投企业信息披露表）"},
-          {"NAME":"M11","VALUE":"M.11（超短期融资券信息披露表）"},
-          {"NAME":"M12","VALUE":"M.12（投资人保护条款信息披露表）"},
-          {"NAME":"M13","VALUE":"M.13（涉及重要事项的信息披露表）"},
-        ]
-      }
         }
     },
     created(){
@@ -231,26 +187,26 @@ export default {
     },
     computed:{
         sonTable(){
-            return this.fadeType?this.sonCommonData.m:this.sonCommonData.d
+            return this.fadeType?this.commonData.M_SUB_TABLE_TYPE:this.commonData.DM_SUB_TABLE_TYPE
         },
         checkitem(){
             var arr = [];
             if(this.fadeType){
-                for(var i in this.sonCommonData.m){
-                    console.log(this.sonCommonData.m[i])
+                for(var i in this.commonData.M_SUB_TABLE_TYPE){
+                    console.log(this.commonData.M_SUB_TABLE_TYPE[i])
                     for(var j in this.checkListThree){
-                        if(this.sonCommonData.m[i].NAME==this.checkListThree[j]){
-                            arr.push(this.sonCommonData.m[i].VALUE)
+                        if(this.commonData.M_SUB_TABLE_TYPE[i].NAME==this.checkListThree[j]){
+                            arr.push(this.commonData.M_SUB_TABLE_TYPE[i].VALUE)
                         }
                     }
                 }
                 console.log(arr)
             }else{
-               for(var i in this.sonCommonData.d){
-                    console.log(this.sonCommonData.d[i])
+               for(var i in this.commonData.DM_SUB_TABLE_TYPE){
+                    console.log(this.commonData.DM_SUB_TABLE_TYPE[i])
                     for(var j in this.checkListThree){
-                        if(this.sonCommonData.d[i].NAME==this.checkListThree[j]){
-                            arr.push(this.sonCommonData.d[i].VALUE)
+                        if(this.commonData.DM_SUB_TABLE_TYPE[i].NAME==this.checkListThree[j]){
+                            arr.push(this.commonData.DM_SUB_TABLE_TYPE[i].VALUE)
                         }
                     }
                 } 
@@ -258,7 +214,8 @@ export default {
 
             }
             return arr;
-        }
+        },
+        ...mapState(['messages','commonData'])
     },
     methods:{
         lastTap(type){
@@ -369,9 +326,9 @@ export default {
                 }
             }
             data.documentId = this.documentId;
-            data.offeringTableType = this.radio;
-            data.offeringType = this.fadeType?'M':'D';
-            data.stage = this.radio2=='预评阶段'?2:1;
+            data.specificationTableType = this.radio;
+            data.specificationType = this.fadeType?'01':'02';
+            data.stage = this.radio2=='预评阶段'?'01':'02';
             data.subTableCheckFlag = this.checkListFive.length?1:0;
             data.subTables = this.checkListThree;
             if(type==7){
@@ -440,7 +397,7 @@ export default {
        margin-left: -200px;
        margin-top: -140px;
        left:50%;
-       top:35%;
+       top:40%;
        border-radius: 15px;
        box-shadow: 0px 0px 5px 8px #e7e9f1;
        padding: 20px 20px;
@@ -498,9 +455,9 @@ export default {
        border-radius:5px;
        position: relative;
        left:50%;
-       top:50%;
+       top:40%;
        margin-left: -200px;
-       margin-top:-225px;
+       margin-top:-230px;
        .title{
              font-size: 20px;
            padding:5px 20px;
@@ -532,16 +489,17 @@ export default {
        }
    }
    .stap{
-        width:400px;
-       height:200px;
-       background: #fff;
-       box-shadow: 0px 0px 5px 8px #e7e9f1;
-       border-radius:5px;
-       position: absolute;
-       left:50%;
-       top:50%;
-       margin-left: -200px;
-       margin-top:-100px;
+        width: 400px;
+        height: 200px;
+        background: #fff;
+        -webkit-box-shadow: 0px 0px 5px 8px #e7e9f1;
+        box-shadow: 0px 0px 5px 8px #e7e9f1;
+        border-radius: 5px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -200px;
+        margin-top: -200px;
        .title{
              font-size: 20px;
            padding:5px 20px;
@@ -576,9 +534,9 @@ export default {
        border-radius:5px;
        position: absolute;
        left:50%;
-       top:50%;
+       top:40%;
        margin-left: -200px;
-       margin-top:-100px;
+          margin-top: -140px;
        .title{
             font-size: 20px;
            padding:5px 20px;
@@ -639,9 +597,9 @@ export default {
        border-radius:5px;
        position: absolute;
        left:50%;
-       top:50%;
+       top:40%;
        margin-left: -200px;
-       margin-top:-200px;
+       margin-top:-140px;
        .title{
            font-size: 20px;
            padding:5px 20px;
@@ -681,9 +639,9 @@ export default {
        border-radius:5px;
        position: absolute;
        left:50%;
-       top:50%;
+       top:40%;
        margin-left: -200px;
-       margin-top:-200px;
+       margin-top:-160px;
        .title{
            font-size: 20px;
             text-align: center;

@@ -15,5 +15,5 @@ export const GetCommonData = ({commit},payload)=>{
     Get("api/iras/common/dictionary/query").then(function(res){
         console.log(res.data)
     })
-    commit("commonData","9999")
+    commit("commonData",res.data)
 }

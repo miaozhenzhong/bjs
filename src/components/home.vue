@@ -68,48 +68,6 @@ export default {
     this.refresh();
     
   },
-  watch: {
-    theme(val, oldVal) {
-      if (typeof val !== 'string') return
-      const themeCluster = this.getThemeCluster(val.replace('#', ''))
-      const originalCluster = this.getThemeCluster(oldVal.replace('#', ''))
-      console.log(themeCluster, originalCluster)
-      const getHandler = (variable, id) => {
-        return () => {
-          const originalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
-          const newStyle = this.updateStyle(this[variable], originalCluster, themeCluster)
-          let styleTag = document.getElementById(id)
-          if (!styleTag) {
-            styleTag = document.createElement('style')
-            styleTag.setAttribute('id', id)
-            document.head.appendChild(styleTag)
-          }
-          styleTag.innerText = newStyle
-        }
-      }
-      const chalkHandler = getHandler('chalk', 'chalk-style')
-      if (!this.chalk) {
-        const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
-        this.getCSSString(url, chalkHandler, 'chalk')
-      } else {
-        chalkHandler()
-      }
-      const styles = [].slice.call(document.querySelectorAll('style'))
-        .filter(style => {
-          const text = style.innerText
-          return new RegExp(oldVal, 'i').test(text) && !/Chalk Variables/.test(text)
-        })
-      styles.forEach(style => {
-        const { innerText } = style
-        if (typeof innerText !== 'string') return
-        style.innerText = this.updateStyle(innerText, originalCluster, themeCluster)
-      })
-      this.$message({
-        message: '换肤成功',
-        type: 'success'
-      })
-    }
-  },
   methods: {
     ...mapActions([
             'sendMessage',
@@ -130,70 +88,10 @@ export default {
     },
     openAside(out){
       if(out=="out"){
-this.AsideWidth = 50
+        this.AsideWidth = 50
       }else{
-this.AsideWidth = 200
+        this.AsideWidth = 200
       }
-      
-    },
-    changeSkin(color){
-      console.log(color)
-      this.theme = color
-    },
-    updateStyle(style, oldCluster, newCluster) {
-      let newStyle = style
-      oldCluster.forEach((color, index) => {
-        console.log(color,newCluster[index])
-        newStyle = newStyle.replace(new RegExp(color, 'ig'), newCluster[index])
-      })
-      return newStyle
-    },
-    getCSSString(url, callback, variable) {
-      const xhr = new XMLHttpRequest()
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          this[variable] = xhr.responseText.replace(/@font-face{[^}]+}/, '')
-          callback()
-        }
-      }
-      xhr.open('GET', url)
-      xhr.send() 
-    },
-    getThemeCluster(theme) {
-      const tintColor = (color, tint) => {
-        let red = parseInt(color.slice(0, 2), 16)
-        let green = parseInt(color.slice(2, 4), 16)
-        let blue = parseInt(color.slice(4, 6), 16)
-        if (tint === 0) { // when primary color is in its rgb space
-          return [red, green, blue].join(',')
-        } else {
-          red += Math.round(tint * (255 - red))
-          green += Math.round(tint * (255 - green))
-          blue += Math.round(tint * (255 - blue))
-          red = red.toString(16)
-          green = green.toString(16)
-          blue = blue.toString(16)
-          return `#${red}${green}${blue}`
-        }
-      }
-      const shadeColor = (color, shade) => {
-        let red = parseInt(color.slice(0, 2), 16)
-        let green = parseInt(color.slice(2, 4), 16)
-        let blue = parseInt(color.slice(4, 6), 16)
-        red = Math.round((1 - shade) * red)
-        green = Math.round((1 - shade) * green)
-        blue = Math.round((1 - shade) * blue)
-        red = red.toString(16)
-        green = green.toString(16)
-        blue = blue.toString(16)
-        return `#${red}${green}${blue}`
-      }
-      const clusters = [theme]
-      for (let i = 0; i <= 9; i++) {
-        clusters.push(tintColor(theme, Number((i / 10).toFixed(2))))
-      }
-      clusters.push(shadeColor(theme, 0.1))
-      return clusters
     }
   }
 }
@@ -205,7 +103,7 @@ this.AsideWidth = 200
       height: 100%;
       img{
         height: 100%;
-        vertical-align: middle;
+        vertical-align: top;
         display: inline-block;
       }
       span{
@@ -221,10 +119,10 @@ this.AsideWidth = 200
     }
     .header{
         width:100%;
-        height:50px;
+        height:35px;
         position: fixed;
         top:0px;
-        line-height: 50px;
+        line-height: 35px;
         background: #f3f3f4;//#20a0ff;
         color: #606266;
         
@@ -241,7 +139,7 @@ this.AsideWidth = 200
             cursor:default;
             position: relative;
             display: inline-block;
-            line-height: 50px;
+            line-height: 35px;
             padding-right: 10px;
             color: #999c9e;
             .MessNum{
@@ -264,55 +162,20 @@ this.AsideWidth = 200
           }
         }
     }
-    // .aside{
-    //     overflow: hidden;
-    //     background:#fff;
-    //     width:160px;
-    //     position: absolute;
-    //     left:0px;
-    //     bottom:0px;
-    //     top:50px;
-    //     z-index: 3;
-    //     transition: width 0.15s ease-out;
-    //     .el-menu{
-    //       border:none;
-    //       /deep/.el-submenu__title {
-    //         font-size: 13px;
-    //       }
-    //       /deep/ .el-menu-item{
-    //         font-size: 13px;
-    //       }
-    //     }
-    // }
     .content{
         position: absolute;
         left:0px;
         right:0px;
-        top:50px;
+        top:35px;
         bottom:0px;
         overflow-x: hidden;
         overflow-y: auto;
         background:#ecf0f1;
-        // overflow: hidden;
-        // .slide-fade-enter-active {
-        //   transition: all .8s ease;
-        // }
-        // .slide-fade-leave-active {
-        //   transition: all .8s ease;
-        // }
-        // .slide-fade-enter
-        // /* .slide-fade-leave-active for below version 2.1.8 */ {
-          
-          
-        // }
-        // .slide-fade-leave-to{
-        //   opacity: 0;
-        // }
-.routerView{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
+    .routerView{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
 .fade-enter-active{
     // -ms-transition: all 0.15s cubic-bezier(0, 0.64, 0.25, 0.81);
     // transition: all 0.15s cubic-bezier(0, 0.64, 0.25, 0.81);

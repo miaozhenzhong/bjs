@@ -37,13 +37,7 @@
                 </div>
                 <div class="content">
                    <el-radio-group v-model="radio">
-                       
-                            <el-radio label="城建">城建</el-radio>
-                            <el-radio label="房地产">房地产</el-radio>
-                            <el-radio label="钢铁">钢铁</el-radio>
-                            <el-radio label="高速公路">高速公路</el-radio>
-                            <el-radio label="火电">火电</el-radio>
-                            <el-radio label="水泥">水泥</el-radio>
+                            <el-radio label="ele.NAME" v-for="(ele,index) in commonData.INDUSTRY_TYPE" :key="index">{{ele.VALUE}}</el-radio>
                     </el-radio-group>
                 </div>
                 <div class="footer">
@@ -81,6 +75,7 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     name:"upload",
     data(){
@@ -97,7 +92,8 @@ export default {
             fourshow:false,
             radio2:'',
             radio:'',
-            filename:''
+            filename:'',
+
         }
     },
     created(){
@@ -105,6 +101,9 @@ export default {
         this.NowIndex = this.$route.query.step?2:1;
         this.NotClick = this.$route.query.step?true:false;
         this.active = this.$route.query.step?1:0;
+    },
+    computed:{
+          ...mapState(['messages','commonData'])
     },
     methods:{
         lastTap(type){
